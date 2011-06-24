@@ -1,0 +1,61 @@
+
+/* Color 1: color1
+   Color 2: color2
+   link  color: Color 3: color3
+   link hover color: color4 */
+body {
+    color: color1;
+    background: color2;
+}
+
+a  {
+    color: color3;
+}
+
+a:hover {
+    color: color4;
+}
+
+#content,
+#left-sidebar,
+#right-sidebar {
+    padding: dpadding;
+    margin: dmargin;
+}
+
+#page-wrapper {
+    width: portalwidth;
+    margin: 0 auto;
+    background: white;
+}
+
+#left-sidebar,
+#right-sidebar {
+    border: 1px solid color2;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#right-sidebar {
+    width: rightcolumn;
+    float: left;
+    padding: dpadding;
+    margin: dmargin;
+}
+
+#left-sidebar {
+    width: leftcolumn;
+    float: left;
+    padding: dpadding;
+    margin: dmargin;
+}
+
+#content {
+    float: left;
+    width: maincolumn;
+}
+
+body div#content-zone {
+    width: auto;
+}
