@@ -39,31 +39,40 @@ class Command(MerengueCommand):
             theme_name = sys.argv[2]
             mediadir = os.path.join(settings.MEDIA_ROOT, 'themes')
             os.makedirs(os.path.join(mediadir, theme_name, 'css'))
+            os.makedirs(os.path.join(mediadir, theme_name, 'img'))
+            os.makedirs(os.path.join(mediadir, theme_name, 'js'))
             templatedir =  os.path.join(settings.BASEDIR, 'templates/themes')
             os.mkdir(os.path.join(templatedir, theme_name))
             shutil.copy2(themestart + '/base.html', templatedir + '/' + theme_name + '/base.html')
-            portalwidth = int(input("Select portal width (0 = full screen, or a value for portal width tipical values are 800, 1024):"))
+            shutil.copy2(themestart + '/layout.css', mediadir + '/' + theme_name + 'css/layout.css')
+            portalwidth = int(input("Select portal width (0 = full screen, or a value for portal width tipical values are between 800 and 1024): "))
             leftcolumn = int(input("Select left column width (0 = widthout left column: "))
-            rightcolumn = int(input("Select right column width (0 = widthout right column:"))
-            dpadding = int(input("Select default main blocks paddings:"))
-            dmargin = int(input("Select default main blocks margin:"))
+            rightcolumn = int(input("Select right column width (0 = widthout right column: "))
+            dpadding = int(input("Select default main blocks paddings: "))
+            dmargin = int(input("Select default main blocks margin: "))
+            color1 = raw_input("Select the main text color (black, blue, #dedede) :")
+            color2 = raw_input("Select the body background color :")
+            color3 = raw_input("Select link color: ")
+            color4 = raw_input("Select link hover color: ")
+
             columns =  leftcolumn  + rightcolumn
             maincolumn = portalwidth - columns - dmargin*2 - dpadding*2
-            color1 = raw_input("Select the main text color (black, blue, #dedede):")
-            color2 = raw_input("Select the body background color:")
-            color3 = raw_input("Select link color")
-            color4 = raw_input("Select link hover color")
-
+            leftcontent = '0'
+            rightcontent = '0'
             if (leftcolumn == 0):
                 leftcolumn = '0px; display: none; visibility: hidden'
+                shutil.copy2(themestart + '/inc.rightsidebar.html', templatedir + '/' + theme_name + '/inc.rightsidebar.html')
             else:
-                leftcolumn = str(leftcolumn-dpadding*2-2) + 'px'
+                leftcontent = str(leftcolumn-dpadding*2-2) + 'px'
+                leftcolumn = str(leftcolumn) + 'px'
                 maincolumn = maincolumn - dmargin*2
 
             if (rightcolumn == 0):
                 rightcolumn = '0px; display: none; visibility: hidden'
+                shutil.copy2(themestart + '/inc.leftsidebar.html', templatedir + '/' + theme_name + '/inc.leftsidebar.html')
             else:
-                rightcolumn = str(rightcolumn-dpadding*2-2) + 'px'
+                rightcontent = str(rightcolumn-dpadding*2-2) + 'px'
+                rightcolumn = str(rightcolumn) + 'px'
                 maincolumn = maincolumn - dmargin*2
 
             if (portalwidth==0):
@@ -75,17 +84,16 @@ class Command(MerengueCommand):
             dmargin = str(dmargin) + 'px'
             maincolumn = str(maincolumn) +'px'
 
-            print 'empezando'
+            print 'Creating theme'
             f = open(themestart + "/default.css")
-            o = open(mediadir + '/' + theme_name + "/css/layout.css", "w")
+            o = open(mediadir + '/' + theme_name + "/css/default.css", "w")
 
-            while 1:
-                line = f.readline()
-                if not line:
-                    break
+            for line in f.readlines():
                 line = line.replace("portalwidth", portalwidth)
                 line = line.replace("leftcolumn", leftcolumn)
+                line = line.replace("leftcontent", leftcontent)
                 line = line.replace("rightcolumn", rightcolumn)
+                line = line.replace("rightcontent", rightcontent)
                 line = line.replace("maincolumn", maincolumn)
                 line = line.replace("dpadding", dpadding)
                 line = line.replace("dmargin", dmargin)
@@ -98,4 +106,6 @@ class Command(MerengueCommand):
             check_themes() #this line add the new theme to theming table in the project BD
             Theme.objects.filter(active=True).update(active=False)
             Theme.objects.filter(name=theme_name).update(active=True)
-            print 'finalizado'
+            print 'To start using your new theme restart your aplication server'
+            print 'To change your theme design you could edit css in: ' +  os.path.join(mediadir, theme_name) + '/css/'
+            print 'To add or modify custom templates you could go: ' + os.path.join(templatedir, theme_name)

@@ -1,0 +1,27 @@
+#page-wrapper {
+    margin: 0 auto;
+    background: white;
+}
+
+#left-sidebar .block,
+#right-sidebar .block {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#right-sidebar {
+    float: left;
+}
+
+#left-sidebar {
+    float: left;
+}
+
+#content {
+    float: left;
+}
+
+body div#content-zone {
+    width: auto;
+}

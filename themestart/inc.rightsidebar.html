@@ -1,0 +1,7 @@
+{% load block_tags %}
+{% block rightsidebarblocks %}
+  {% render_all_blocks "rightsidebar" %}
+  {% render_all_blocks "leftsidebar" %}
+  {% block extrarightsidebarblocks %}
+  {% endblock %}
+{% endblock %}
