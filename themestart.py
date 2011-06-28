@@ -104,8 +104,6 @@ class Command(MerengueCommand):
                 o.write(line)
             o.close()
             check_themes() #this line add the new theme to theming table in the project BD
-            Theme.objects.filter(active=True).update(active=False)
-            Theme.objects.filter(name=theme_name).update(active=True)
-            print 'To start using your new theme restart your aplication server'
+            print 'To start using your new theme activate it in your server admin themes'
             print 'To change your theme design you could edit css in: ' +  os.path.join(mediadir, theme_name) + '/css/'
             print 'To add or modify custom templates you could go: ' + os.path.join(templatedir, theme_name)
