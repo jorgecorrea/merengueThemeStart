@@ -44,7 +44,7 @@ class Command(MerengueCommand):
             templatedir =  os.path.join(settings.BASEDIR, 'templates/themes')
             os.mkdir(os.path.join(templatedir, theme_name))
             shutil.copy2(themestart + '/base.html', templatedir + '/' + theme_name + '/base.html')
-            shutil.copy2(themestart + '/layout.css', mediadir + '/' + theme_name + 'css/layout.css')
+            shutil.copy2(themestart + '/layout.css', mediadir + '/' + theme_name + '/css/layout.css')
             portalwidth = int(input("Select portal width (0 = full screen, or a value for portal width tipical values are between 800 and 1024): "))
             leftcolumn = int(input("Select left column width (0 = widthout left column: "))
             rightcolumn = int(input("Select right column width (0 = widthout right column: "))
