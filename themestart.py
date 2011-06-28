@@ -19,11 +19,10 @@ import os
 import sys
 from django.conf import settings
 from django.core.management import call_command
-
+from django.core.management.base import CommandError
 from merengue.base.management.base import MerengueCommand
-from merengue.pluggable.utils import get_plugins_dir
+
 from merengue.theming.checker import check_themes
-from merengue.theming.models import Theme
 import shutil
 
 
@@ -38,7 +37,11 @@ class Command(MerengueCommand):
             themestart="merengue/base/management/commands/themestart"
             theme_name = sys.argv[2]
             mediadir = os.path.join(settings.MEDIA_ROOT, 'themes')
-            os.makedirs(os.path.join(mediadir, theme_name, 'css'))
+            try:
+                os.makedirs(os.path.join(mediadir, theme_name, 'css'))
+            except OSError:
+                raise CommandError("This theme already exists, please try another name")
+            
             os.makedirs(os.path.join(mediadir, theme_name, 'img'))
             os.makedirs(os.path.join(mediadir, theme_name, 'js'))
             templatedir =  os.path.join(settings.BASEDIR, 'templates/themes')
@@ -85,25 +88,23 @@ class Command(MerengueCommand):
             maincolumn = str(maincolumn) +'px'
 
             print 'Creating theme'
-            f = open(themestart + "/default.css")
+            contents = open(themestart + "/default.css", "r").read()
             o = open(mediadir + '/' + theme_name + "/css/default.css", "w")
-
-            for line in f.readlines():
-                line = line.replace("portalwidth", portalwidth)
-                line = line.replace("leftcolumn", leftcolumn)
-                line = line.replace("leftcontent", leftcontent)
-                line = line.replace("rightcolumn", rightcolumn)
-                line = line.replace("rightcontent", rightcontent)
-                line = line.replace("maincolumn", maincolumn)
-                line = line.replace("dpadding", dpadding)
-                line = line.replace("dmargin", dmargin)
-                line = line.replace("color1", color1)
-                line = line.replace("color2", color2)
-                line = line.replace("color3", color3)
-                line = line.replace("color4", color4)
-                o.write(line)
+            contents = contents.replace("portalwidth", portalwidth)
+            contents = contents.replace("leftcolumn", leftcolumn)
+            contents = contents.replace("leftcontent", leftcontent)
+            contents = contents.replace("rightcolumn", rightcolumn)
+            contents = contents.replace("rightcontent", rightcontent)
+            contents = contents.replace("maincolumn", maincolumn)
+            contents = contents.replace("dpadding", dpadding)
+            contents = contents.replace("dmargin", dmargin)
+            contents = contents.replace("color1", color1)
+            contents = contents.replace("color2", color2)
+            contents = contents.replace("color3", color3)
+            contents = contents.replace("color4", color4)
+            o.write(contents)
             o.close()
             check_themes() #this line add the new theme to theming table in the project BD
-            print 'To start using your new theme activate it in your server admin themes'
+            print 'To start using your new theme restart your aplication server'
             print 'To change your theme design you could edit css in: ' +  os.path.join(mediadir, theme_name) + '/css/'
             print 'To add or modify custom templates you could go: ' + os.path.join(templatedir, theme_name)
