@@ -1,0 +1,55 @@
+/* Color 1: color1
+   Color 2: color2
+   link  color: Color 3: color3
+   link hover color: color4 */
+body {
+    color: color1;
+}
+
+a  {
+    color: color3;
+}
+
+a:hover {
+    color: color4;
+}
+
+#page-wrapper {
+    width: portalwidth;
+    background: color2;
+    overflow-x: auto;
+}
+
+#left-sidebar .block,
+#right-sidebar .block {
+    border: 1px solid color2;
+    padding: 0 dpadding 0 dpadding;
+    margin-bottom: dmargin;
+}
+
+#left-sidebar {
+    width: leftcolumn;
+    min-width: 130px;
+    margin: dmargin;
+}
+
+#left-sidebar .block {
+    width: leftcontent
+}
+
+#right-sidebar {
+    width: rightcolumn;
+    min-width: 130px;
+    margin: dmargin;
+}
+
+#right-sidebar .block {
+    width: rightcontent;
+}
+
+#content {
+    width: maincolumn;
+    min-width: 300px;
+    padding: 0 dpadding 0 dpadding;
+    margin: dmargin;
+}
