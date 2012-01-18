@@ -1,3 +1,6 @@
 to use this command in your merengue project you need to copy it to
 this folder inside your project:
 your_project/merengue/base/management/commands/
+
+After you copy it, to run this command execute this in your console inside your proyect main folder:
+manage.py themestart "yourthemename"
